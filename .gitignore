@@ -1,0 +1,4 @@
+config.py
+__pycache__
+pokemondata.csv
+pokemontypedata.csv
