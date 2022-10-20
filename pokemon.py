@@ -33,8 +33,9 @@ def GetPokemon(id):
         # Check ID to prevent turn over.
         if (id <= 0):
             id = 1
+
         df = GetPokemonTable()
-        return Pokemon(df.iloc[id - 1])
+        return Pokemon(df.loc[df['Number'] == id].iloc[0])
 
     # Check if id is string
     if (type(id) is str):
