@@ -1,11 +1,11 @@
-from pokemon import GetPokemon
+from pokemon import get_pokemon
 from battle import battle
 
 # Get bulbasar
-bulb = GetPokemon("Mewtwo")
+bulb = get_pokemon("Mewtwo")
 bulb.setLevel(100)
 # Get venusaur
-venusaur = GetPokemon("Weedle")
+venusaur = get_pokemon("Weedle")
 venusaur.setLevel(100)
 
 # Perform battle and show result

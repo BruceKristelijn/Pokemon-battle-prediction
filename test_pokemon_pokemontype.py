@@ -1,8 +1,8 @@
-from pokemon import GetPokemon
+from pokemon import get_pokemon
 from pokemontype import GetComparison
 
-bulb = GetPokemon(1)
-mew = GetPokemon(4)
+bulb = get_pokemon(1)
+mew = get_pokemon(4)
 
 bulb.print()
 bulb.setLevel(65)

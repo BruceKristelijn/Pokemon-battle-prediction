@@ -1,13 +1,14 @@
 import pandas as pd
 import requests
-import config
+from util import get_google_key
+
 
 # Define method for creating a table to generate a matrix to get the type comparison.
 def GetTypeTable():
     # define the url to get csv from and use API key from config file.
-    url = "https://www.googleapis.com/drive/v3/files/1JkhsIisiKwZO_xV9tJ_W2K46gJVKYeyTKz-DYonQ8LQ/export?key=" + config.key + "&mimeType=text/csv"
+    url = f"https://www.googleapis.com/drive/v3/files/1ax91ecQyQbLosX2f_yeSq0UREjMFP0GbNCavXg0kpzw/export?key={get_google_key()}&mimeType=text/csv"
 
-    #Get the file from url and write to filename.
+    # Get the file from url and write to filename.
     file_name = 'pokemontypedata.csv'
     r = requests.get(url, stream=True)
     with open(file_name, 'wb') as f:
@@ -28,8 +29,8 @@ def GetTypeTable():
     #             if(index != 0):
     #                 newentry[df.keys()[index]] = entry
     #         matrix[key] = newentry
-
     return df
+
 
 # Method for easly getting the comparison of two types.
 def GetComparison(attacker, defender):
