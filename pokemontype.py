@@ -6,7 +6,7 @@ from util import get_google_key
 # Define method for creating a table to generate a matrix to get the type comparison.
 def GetTypeTable():
     # define the url to get csv from and use API key from config file.
-    url = f"https://www.googleapis.com/drive/v3/files/1ax91ecQyQbLosX2f_yeSq0UREjMFP0GbNCavXg0kpzw/export?key={get_google_key()}&mimeType=text/csv"
+    url = f"https://www.googleapis.com/drive/v3/files/1JkhsIisiKwZO_xV9tJ_W2K46gJVKYeyTKz-DYonQ8LQ/export?key={get_google_key()}&mimeType=text/csv"
 
     # Get the file from url and write to filename.
     file_name = 'pokemontypedata.csv'
