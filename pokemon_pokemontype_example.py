@@ -1,5 +1,5 @@
-from pokemon import get_pokemon
-from pokemontype import GetComparison
+from pokemon.pokemon import get_pokemon
+from pokemon.pokemontype import GetComparison
 
 bulb = get_pokemon(1)
 mew = get_pokemon(4)

@@ -1,3 +1,5 @@
+from math import sqrt
+from tokenize import Number
 from typing import Union
 
 import pandas as pd
@@ -5,13 +7,13 @@ import requests
 from os import getenv
 from util import get_google_key
 
-
 BASELEVEL = 50
+MAX_STATE_XP = 65535
+
 valid_pokemon_keys = ['Number', 'Name', 'Types', 'Type1', 'Type2', 'Height', 'Weight',
        'Male_Pct', 'Female_Pct', 'Capt_Rate', 'Exp_Points', 'Exp_Speed',
        'Base_Total', 'HP', 'Attack', 'Defense', 'Special', 'Speed',
        'Evolutions', 'Legendary']
-
 
 class Pokemon:
     Level = 50
@@ -49,7 +51,6 @@ class Pokemon:
         print("Level multiplier:", self.getLevelMultiplier())
         print("------------")
 
-
 def get_pokemon_data(auth_key):
     file_name = 'pokemondata.csv'
 
@@ -78,3 +79,11 @@ def get_pokemon(id_or_name: Union[int, str]) -> Pokemon:
 
     if type(k) is str:
         return Pokemon(df.loc[df['Name'] == k].iloc[0])
+
+# Calculates the HP stat for a pokemon
+def calculate_hp_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)):
+      ((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + level + 10
+
+# Calculates the Stat for a pokemon
+def calculate_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)):
+      ((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + 5

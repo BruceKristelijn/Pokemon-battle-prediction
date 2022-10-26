@@ -1,5 +1,5 @@
-from pokemon import Pokemon
-from pokemontype import GetComparison
+from pokemon.pokemon import Pokemon
+from pokemon.pokemontype import GetComparison
 
 
 class Battleresult:
