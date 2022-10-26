@@ -1,4 +1,5 @@
 from math import sqrt
+import math
 from tokenize import Number
 from typing import Union
 
@@ -81,9 +82,9 @@ def get_pokemon(id_or_name: Union[int, str]) -> Pokemon:
         return Pokemon(df.loc[df['Name'] == k].iloc[0])
 
 # Calculates the HP stat for a pokemon
-def calculate_hp_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)):
-      ((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + level + 10
+def calculate_hp_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)) -> int:
+    return math.floor(((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + level + 10)
 
 # Calculates the Stat for a pokemon
-def calculate_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)):
-      ((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + 5
+def calculate_stat(level: int = BASELEVEL, basestat: int = 45, dv: int = 8, stateXp: int = (MAX_STATE_XP/2)) -> int:
+    return math.floor(((((basestat + dv) * 2 + (sqrt(stateXp) / 4)) * level) / 100) + 5)

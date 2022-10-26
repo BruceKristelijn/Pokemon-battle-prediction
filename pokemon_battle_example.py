@@ -1,5 +1,4 @@
 from pokemon.pokemon import get_pokemon
-from pokemon.pokemon import get_pokemon_data
 from util import get_google_key
 from pokemon.battle import battle
 
