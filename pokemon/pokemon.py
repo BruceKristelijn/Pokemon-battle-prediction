@@ -13,7 +13,7 @@ MAX_STATE_XP = 65535
 
 valid_pokemon_keys = ['Number', 'Name', 'Types', 'Type1', 'Type2', 'Height', 'Weight',
        'Male_Pct', 'Female_Pct', 'Capt_Rate', 'Exp_Points', 'Exp_Speed',
-       'Base_Total', 'HP', 'Attack', 'Defense', 'Special', 'Speed',
+       'Base_Total',
        'Evolutions', 'Legendary']
 
 class Pokemon:
@@ -23,10 +23,8 @@ class Pokemon:
         # Set source data.
         self.source = data
         for k, v in data.items():
-            setattr(self, k, v)
-
-    def getLevelMultiplier(self):
-        return self.Level / BASELEVEL
+            if k in valid_pokemon_keys:
+                setattr(self, k, v)
 
     def setLevel(self, newlevel):
         if self.Level == newlevel:
@@ -34,23 +32,38 @@ class Pokemon:
 
         # Set new level and get multiplier.
         self.Level = newlevel
-        levelMultiplier = self.getLevelMultiplier()
-
-        # Values to reset.
-        # HP Attack Defense Special Speed
-        self.HP = self.source.HP * levelMultiplier
-        self.Attack = self.source.Attack * levelMultiplier
-        self.Defense = self.source.Defense * levelMultiplier
-        self.Special = self.source.Special * levelMultiplier
-        self.Speed = self.source.Speed * levelMultiplier
 
     def print(self):
         for k, v in vars(self).items():
             if k != "source":
                 print(k + ":", v)
 
-        print("Level multiplier:", self.getLevelMultiplier())
+        print("HP:", self.get_hp())
+        print("Attack:", self.get_attack())
+        print("Defence:", self.get_defense())
+        print("Special:", self.get_special())
+        print("Speed:", self.get_speed())
         print("------------")
+
+    def get_hp(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        return calculate_hp_stat(self.Level, self.source.HP, dv, stateXp)
+
+    def get_stat(self, basestat: Union[int, str], dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        if type(basestat) is str:
+            basestat = getattr(self.source, basestat)
+        return calculate_stat(self.Level, basestat, dv, stateXp)
+
+    def get_attack(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        return self.get_stat("Attack", dv, stateXp)
+
+    def get_defense(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        return self.get_stat("Defense", dv, stateXp)
+
+    def get_special(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        return self.get_stat("Special", dv, stateXp)
+
+    def get_speed(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
+        return self.get_stat("Speed", dv, stateXp)
 
 def get_pokemon_data(auth_key):
     file_name = 'pokemondata.csv'

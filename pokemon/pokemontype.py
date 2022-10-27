@@ -4,7 +4,7 @@ from util import get_google_key
 
 
 # Define method for creating a table to generate a matrix to get the type comparison.
-def GetTypeTable():
+def get_typetable():
     # define the url to get csv from and use API key from config file.
     url = f"https://www.googleapis.com/drive/v3/files/1JkhsIisiKwZO_xV9tJ_W2K46gJVKYeyTKz-DYonQ8LQ/export?key={get_google_key()}&mimeType=text/csv"
 
@@ -33,7 +33,7 @@ def GetTypeTable():
 
 
 # Method for easly getting the comparison of two types.
-def GetComparison(attacker, defender):
-    df = GetTypeTable()
+def get_type_comparison(attacker, defender):
+    df = get_typetable()
     row = df.loc[df['attacker'] == attacker][defender]
     return row.item()

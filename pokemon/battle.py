@@ -1,5 +1,5 @@
 from pokemon.pokemon import Pokemon
-from pokemon.pokemontype import GetComparison
+from pokemon.pokemontype import get_type_comparison
 
 
 class Battleresult:
@@ -42,19 +42,35 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
 
 # Calculates the potential damage a pokemon does against another pokemon.
 def attack(attacker: Pokemon, defender: Pokemon):
+    # Following the gen 1 formule where possible:
+    # https://bulbapedia.bulbagarden.net/wiki/Damage#:~:text=Type2%5Ctimes%20random%7D-,where%3A,-Level%20is%20the
 
-    # A1 / D2 + Type1 * Type2 (Type2 = Type1 if type is not set)
-    ad = attacker.Attack / defender.Defense
-    pwr = 50 * attacker.getLevelMultiplier()
-    dmg = ((pwr + ad) / 50) + 2
+    # Start with 0 damage
+    dmg = 0
+    
+    # One until we use special moves.
+    power = 1 
+    
+    # Same attack bonus will be 1 aswell.
+    stab = 1.5
+    
     # Compare type 1 and type 2
-    type1 = GetComparison(attacker.Type1, defender.Type1)
-    # Compare type 2 but make sure type2 is correct.
+    type1 = get_type_comparison(attacker.Type1, defender.Type1)
+
+    # Compare type 2 but make sure type2 is correct other wise type2 stays 1.
     type2 = 1
     if attacker.Type2 != 'none' and defender.Type2 != 'none':
-        type2 = GetComparison(attacker.Type2, defender.Type2)
+        type2 = get_type_comparison(attacker.Type2, defender.Type2)
 
-    dmg = dmg * type1 * type2
+    # Calculate attack / defence
+    ad = attacker.get_attack() / defender.get_defense()
+
+    # Left side of formula
+    dmg = (((((2 * attacker.Level) / 5) + 2) * power * attacker.get_attack() / defender.get_defense()) / 50) + 2
+
+    # Right side of formula
+    dmg *= stab * type1 * type2
+
     return (dmg)
 
 
