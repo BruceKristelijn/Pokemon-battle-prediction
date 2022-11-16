@@ -11,6 +11,7 @@ from util import get_google_key
 
 BASELEVEL = 50
 MAX_STATE_XP = 65535
+DATAFRAME = None
 
 valid_pokemon_keys = ['Number', 'Name', 'Types', 'Type1', 'Type2', 'Height', 'Weight',
        'Male_Pct', 'Female_Pct', 'Capt_Rate', 'Exp_Points', 'Exp_Speed',
@@ -75,18 +76,24 @@ class Pokemon:
 def get_pokemon_data(auth_key):
     file_name = 'pokemondata.csv'
 
-    # Try to see if local csv exists, if not download and store it.
-    try:
-        f = open(file_name, "r")
-        f.read()
-    except:
-        url = f"https://www.googleapis.com/drive/v3/files/1ax91ecQyQbLosX2f_yeSq0UREjMFP0GbNCavXg0kpzw/export?key={auth_key}&mimeType=text/csv"
-        r = requests.get(url, stream=True)
-        with open(file_name, 'wb') as f:
-            for chunk in r.iter_content():
-                f.write(chunk)
+    global DATAFRAME
+    if(DATAFRAME is None):
+        # Try to see if local csv exists, if not download and store it.
+        try:
+            f = open(file_name, "r")
+            f.read()
+        except:
+            url = f"https://www.googleapis.com/drive/v3/files/1ax91ecQyQbLosX2f_yeSq0UREjMFP0GbNCavXg0kpzw/export?key={auth_key}&mimeType=text/csv"
+            r = requests.get(url, stream=True)
+            with open(file_name, 'wb') as f:
+                for chunk in r.iter_content():
+                    f.write(chunk)
 
-    return pd.read_csv(file_name)
+        # define pandas dataframe/
+        DATAFRAME = pd.read_csv(file_name)
+
+
+    return DATAFRAME
 
 def get_pokemon(id_or_name: Union[int, str] = "list") -> Pokemon:
     df = get_pokemon_data(get_google_key())
