@@ -10,10 +10,16 @@ def get_typetable():
 
     # Get the file from url and write to filename.
     file_name = 'pokemontypedata.csv'
-    r = requests.get(url, stream=True)
-    with open(file_name, 'wb') as f:
-        for chunk in r.iter_content():
-            f.write(chunk)
+
+    try:
+        f = open(file_name, "r")
+        f.read()
+    except:
+        url = url
+        r = requests.get(url, stream=True)
+        with open(file_name, 'wb') as f:
+            for chunk in r.iter_content():
+                f.write(chunk)
 
     # define pandas dataframe/
     df = pd.read_csv(file_name)
@@ -21,14 +27,6 @@ def get_typetable():
     # start matrix dictionary to start from.
     matrix = {}
 
-    # Loop over full CSV to fill dictionary for easy usage. Speed was not a worry here.
-    # for j, key in enumerate(df.keys()):
-    #     if(j != 0):
-    #         newentry = {}
-    #         for index, entry in enumerate(df.loc[:, key]):
-    #             if(index != 0):
-    #                 newentry[df.keys()[index]] = entry
-    #         matrix[key] = newentry
     return df
 
 
@@ -36,4 +34,7 @@ def get_typetable():
 def get_type_comparison(attacker, defender):
     df = get_typetable()
     row = df.loc[df['attacker'] == attacker][defender]
-    return row.item()
+    try:
+        return row.item()
+    except:
+        return 1

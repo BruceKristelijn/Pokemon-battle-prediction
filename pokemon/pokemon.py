@@ -2,6 +2,7 @@ from math import sqrt
 import math
 from tokenize import Number
 from typing import Union
+from typing import List
 
 import pandas as pd
 import requests
@@ -45,6 +46,12 @@ class Pokemon:
         print("Speed:", self.get_speed())
         print("------------")
 
+    def __eq__(self,other):
+        if not isinstance(other, Pokemon):
+            # don't attempt to compare against unrelated types
+            return False
+        return self.Number == other.Number
+
     def get_hp(self, dv: int = 8, stateXp: int = MAX_STATE_XP) -> int:
         return calculate_hp_stat(self.Level, self.source.HP, dv, stateXp)
 
@@ -81,10 +88,19 @@ def get_pokemon_data(auth_key):
 
     return pd.read_csv(file_name)
 
-
-def get_pokemon(id_or_name: Union[int, str]) -> Pokemon:
+def get_pokemon(id_or_name: Union[int, str] = "list") -> Pokemon:
     df = get_pokemon_data(get_google_key())
     k = id_or_name
+
+    if(k == "list"):
+        list = []
+        df = get_pokemon_data(get_google_key())
+
+        for index, row in df.iterrows():
+            list.append(Pokemon(row))
+
+        return list
+
     if type(k) is int:
         # Check ID to prevent turn over.
         if k <= 0:
