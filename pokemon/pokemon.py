@@ -3,6 +3,7 @@ import math
 from tokenize import Number
 from typing import Union
 from typing import List
+import coloring
 
 import pandas as pd
 import requests
@@ -115,6 +116,10 @@ def get_pokemon(id_or_name: Union[int, str] = "list") -> Pokemon:
         return Pokemon(df.loc[df['Number'] == k].iloc[0])
 
     if type(k) is str:
+        if(k == "Nidoran"):
+            print(coloring.colorize("[Pokemon retrieval error] Nidoran can be both female and male. Assuming female. Use Nidoran-F and Nidoran-M for male or female.", "red"))
+            k = "Nidoran-F"
+
         return Pokemon(df.loc[df['Name'] == k].iloc[0])
 
 # Calculates the HP stat for a pokemon
