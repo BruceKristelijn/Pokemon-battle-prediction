@@ -22,8 +22,8 @@ def extract_move_table(all_rows, table_type='level'):
 
             move_data = {
                 table_type: first_col,
-                "move": div.find("td", {"class": "cell-name"}).a.find(text=True),
-                "type": div.find("td", {"class": "cell-icon"}).a.find(text=True),
+                "move": row.find("td", {"class": "cell-name"}).a.find(text=True),
+                "type": row.find("td", {"class": "cell-icon"}).a.find(text=True),
                 "category": row.find("td", {"class": "cell-icon text-center"}).get("data-filter-value"),
                 "power": power,
                 "accuracy": accuracy,
@@ -38,9 +38,6 @@ def extract_move_table(all_rows, table_type='level'):
 
 pokemon_moves_df = pd.DataFrame(columns=["pokemon_id", "pokemon_name", "level_moveset", "tm_moveset", "hm_moveset"])
 for i, pokemon in enumerate(pokemon_data['Name'].str.lower()):
-    if pokemon == 'nidoran' and pokemon_data.iloc[i]["Number"] == 29:
-        pokemon = f"{pokemon}-f"
-        breakpoint()
     URL = f"https://pokemondb.net/pokedex/{pokemon}/moves/1"
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
