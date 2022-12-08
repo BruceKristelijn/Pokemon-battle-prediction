@@ -1,6 +1,8 @@
 from pokemon.pokemon import get_pokemon
 from pokemon.battle import battle
 
+from tqdm import tqdm
+
 import random
 import json
 import csv
@@ -19,7 +21,7 @@ results = []
 # Simulate
 print("Randomizing simulation of all pokemon, length: " + str(COUNT))
 
-for i in range(0, COUNT):
+for i in tqdm(range(0, COUNT)):
     # Get attacker
     attacker = get_pokemon(random.randint(0, len(POKEMONS)))
     attacker.setLevel(random.randint(0, 99))
@@ -35,6 +37,8 @@ for i in range(0, COUNT):
         'winner_json': battleresult.winner.toJSON(),
         'loser_json': battleresult.loser.toJSON()
     })
+
+    pass
 
 
 # export results
