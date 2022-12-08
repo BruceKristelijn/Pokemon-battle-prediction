@@ -32,25 +32,22 @@ for i in tqdm(range(0, COUNT)):
 
     battleresult = battle((attacker), (defender))
     results.append({
-        'winner': battleresult.winner.Number,
-        'loser':  battleresult.loser.Number,
-        'winner_json': battleresult.winner.toJSON(),
-        'loser_json': battleresult.loser.toJSON()
+        'winner': battleresult.winner,
+        'loser':  battleresult.loser
     })
 
     pass
 
 
 # export results
-with open('pokemon_sumulation.csv', 'w') as file:
+with open('pokemon_simulation.csv', 'w') as file:
     writer = csv.writer(file)
 
-    writer.writerow(['winner', 'loser', 'winner_json', 'loser_json'])
+    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed' 
+                    'winner_level', 'loser_hp', 'loser_attack', 'loser_defense', 'winner_speed'])
 
     for result in results:
         writer.writerow([
-            result['winner'], 
-            result['loser'], 
-            result['winner_json'],
-            result['loser_json']
+            result['winner'].Level, result['winner'].get_hp(),  result['winner'].get_attack(), result['winner'].get_defense(), result['winner'].get_speed(),
+            result['loser'].Level, result['loser'].get_hp(),  result['loser'].get_attack(), result['loser'].get_defense(), result['loser'].get_speed()
         ])
