@@ -5,6 +5,7 @@ from typing import Union
 from typing import List
 import coloring
 
+import json
 import pandas as pd
 import requests
 from os import getenv
@@ -19,6 +20,18 @@ valid_pokemon_keys = ['Number', 'Name', 'Types', 'Type1', 'Type2', 'Height', 'We
        'Base_Total',
        'Evolutions', 'Legendary']
 
+import numpy as np
+
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
+
 class Pokemon:
     Level = 50
 
@@ -28,7 +41,12 @@ class Pokemon:
         for k, v in data.items():
             if k in valid_pokemon_keys:
                 setattr(self, k, v)
+    def toJSON(self):
+        dump = {}
+        for key in valid_pokemon_keys + ["Level"]:
+            dump[key] = getattr(self, key)
 
+        return json.dumps(dump, cls=NpEncoder).replace('""', '"')
     def setLevel(self, newlevel):
         if self.Level == newlevel:
             return
