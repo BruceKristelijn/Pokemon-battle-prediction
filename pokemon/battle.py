@@ -74,11 +74,22 @@ def attack(attacker: Pokemon, defender: Pokemon):
     # Start with 0 damage
     dmg = 0
     
-    # One until we use special moves.
-    power = 1 
+    # Using 40 because it is the average of all the moves
+    power = 40
+
+    # Using 92 because it is the average of all the moves
+    accuracy = 92
     
     # Same attack bonus will be 1 aswell.
     stab = 1.5
+
+    #CriticalHit
+    crit = 1
+    randomNumber = random.uniform(1, 100)
+
+    # Check if the number is less than or equal to 6.25
+    if randomNumber <= 6.25:
+        critical = 2
     
     # Compare type 1 and type 2
     type1 = get_type_comparison(attacker.Type1, defender.Type1)
@@ -92,12 +103,16 @@ def attack(attacker: Pokemon, defender: Pokemon):
     ad = attacker.get_attack() / defender.get_defense()
 
     # Left side of formula
-    dmg = (((((2 * attacker.Level) / 5) + 2) * power * attacker.get_attack() / defender.get_defense()) / 50) + 2
+    dmg = (((((2 * attacker.Level * crit) / 5) + 2) * power * attacker.get_attack() / defender.get_defense()) / 50) + 2
 
     # Right side of formula
     dmg *= stab * type1 * type2
 
-    return (dmg)
+    randomNumber = random.uniform(1, 100)
+    if randomNumber <= accuracy:
+        return(dmg)
+    else:
+        return(0)
 
 
 # Used to get the type so type2 is comparable.
