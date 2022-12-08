@@ -1,5 +1,7 @@
+from math import floor
 from pokemon.pokemon import Pokemon
 from pokemon.pokemontype import get_type_comparison
+import random
 import time
 
 class Battleresult:
@@ -12,7 +14,7 @@ class Battleresult:
 
 
 # Calculates the potential damage a pokemon does against another pokemon.
-def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
+def battle(pokemon1: Pokemon, pokemon2: Pokemon, log: bool = False) -> Battleresult:
     # Create class to return
     battleresult = Battleresult()
 
@@ -31,15 +33,17 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
         attacker = turn % 2
         defender = 1 - turn % 2 
 
-        print(pokemons[attacker].Name + " attacked " + pokemons[defender].Name)
-        print(str(pokemons[defender].Name) + " HP is " + str(pokemons[defender].TEMP_HP))
-
+        if(log):
+            print(pokemons[attacker].Name + " attacked " + pokemons[defender].Name)
+            print(str(pokemons[defender].Name) + " HP is " + str(pokemons[defender].TEMP_HP))
+            time.sleep(3)
 
         # Attacker attack Defender
         damage = attack(pokemons[attacker], pokemons[defender])
         pokemons[defender].TEMP_HP -= damage
 
-        print(pokemons[attacker].Name + " did " + str(damage) + " damage")
+        if(log):
+            print(pokemons[attacker].Name + " did " + str(damage) + " damage. \n new hp is " + str(pokemons[defender].TEMP_HP))
 
         # Check if any pokemon is dead
         if pokemons[0].TEMP_HP <= 0 or pokemons[1].TEMP_HP <= 0:
@@ -48,12 +52,11 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
         # If not we continue and up the turn
         turn += 1
         
-        print("---")
-        time.sleep(3)
+        if(log):
+            print("---")
 
     # Find winner by sorting with HP
-    pokemons = [pokemon1, pokemon2]
-    pokemons = sorted(pokemons, key=lambda x: x.TEMP_HP)
+    pokemons = sorted(pokemons, key=lambda x: x.TEMP_HP, reverse=True)
 
     # Delete temp values
     del pokemons[0].TEMP_HP
@@ -64,7 +67,6 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
     battleresult.loser = pokemons[1]
 
     return (battleresult)
-
 
 # Calculates the potential damage a pokemon does against another pokemon.
 def attack(attacker: Pokemon, defender: Pokemon):
@@ -110,7 +112,7 @@ def attack(attacker: Pokemon, defender: Pokemon):
 
     randomNumber = random.uniform(1, 100)
     if randomNumber <= accuracy:
-        return(dmg)
+        return floor(dmg)
     else:
         return(0)
 
