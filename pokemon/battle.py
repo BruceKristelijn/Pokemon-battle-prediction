@@ -46,7 +46,7 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon, log: bool = False) -> Battleres
             print(pokemons[attacker].Name + " did " + str(damage) + " damage. \n new hp is " + str(pokemons[defender].TEMP_HP))
 
         # Check if any pokemon is dead
-        if pokemons[0].TEMP_HP <= 0 or pokemons[1].TEMP_HP <= 0:
+        if pokemons[0].TEMP_HP <= 0 or pokemons[1].TEMP_HP <= 0 or turn > 200:
             break
 
         # If not we continue and up the turn
