@@ -1,20 +1,14 @@
 from pokemon.pokemon import Pokemon
 from pokemon.pokemontype import get_type_comparison
-
+import time
 
 class Battleresult:
-    pokemon1: Pokemon
-    pokemon2: Pokemon
-    attack1: float
-    attack2: float
     winner: Pokemon
     loser: Pokemon
 
     def print(self):
         print("Pokemon battle winner: " + self.winner.Name)
         print("Loser: " + self.loser.Name)
-        print("Attack 1 (" + self.pokemon1.Name + "): " + str(self.attack1))
-        print("Attack 2 (" + self.pokemon2.Name + "): " + str(self.attack2))
 
 
 # Calculates the potential damage a pokemon does against another pokemon.
@@ -22,20 +16,52 @@ def battle(pokemon1: Pokemon, pokemon2: Pokemon) -> Battleresult:
     # Create class to return
     battleresult = Battleresult()
 
-    # pokemon1 attack dmg
-    battleresult.attack1 = attack(pokemon1, pokemon2)
-    # pokemon2 attack dmg
-    battleresult.attack2 = attack(pokemon2, pokemon1)
+    pokemons = [pokemon1, pokemon2]
+    pokemons = sorted(pokemons, key=lambda x: x.get_speed(), reverse=True)
 
-    battleresult.pokemon1 = pokemon1
-    battleresult.pokemon2 = pokemon2
+    # Save temporary HP
+    pokemons[0].TEMP_HP = pokemons[0].get_hp()
+    pokemons[1].TEMP_HP = pokemons[1].get_hp()
 
-    if battleresult.attack1 > battleresult.attack2:
-        battleresult.winner = pokemon1
-        battleresult.loser = pokemon2
-    else:
-        battleresult.winner = pokemon2
-        battleresult.loser = pokemon1
+    # Save the turn
+    turn = 0
+
+    while(True):
+        # Find the defender and attacker.
+        attacker = turn % 2
+        defender = 1 - turn % 2 
+
+        print(pokemons[attacker].Name + " attacked " + pokemons[defender].Name)
+        print(str(pokemons[defender].Name) + " HP is " + str(pokemons[defender].TEMP_HP))
+
+
+        # Attacker attack Defender
+        damage = attack(pokemons[attacker], pokemons[defender])
+        pokemons[defender].TEMP_HP -= damage
+
+        print(pokemons[attacker].Name + " did " + str(damage) + " damage")
+
+        # Check if any pokemon is dead
+        if pokemons[0].TEMP_HP <= 0 or pokemons[1].TEMP_HP <= 0:
+            break
+
+        # If not we continue and up the turn
+        turn += 1
+        
+        print("---")
+        time.sleep(3)
+
+    # Find winner by sorting with HP
+    pokemons = [pokemon1, pokemon2]
+    pokemons = sorted(pokemons, key=lambda x: x.TEMP_HP)
+
+    # Delete temp values
+    del pokemons[0].TEMP_HP
+    del pokemons[1].TEMP_HP
+
+    # fill winner
+    battleresult.winner = pokemons[0]
+    battleresult.loser = pokemons[1]
 
     return (battleresult)
 
