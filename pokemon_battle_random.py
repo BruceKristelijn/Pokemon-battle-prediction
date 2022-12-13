@@ -44,7 +44,7 @@ with open('pokemon_simulation.csv', 'w') as file:
     writer = csv.writer(file)
 
     writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed', 
-                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'winner_speed'])
+                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'loser_speed'])
 
     for result in results:
         writer.writerow([

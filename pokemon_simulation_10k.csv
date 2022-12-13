@@ -1,4 +1,4 @@
-winner_level,winner_hp,winner_attack,winner_defense,winner_speed,loser_level,loser_hp,loser_attack,loser_defense,winner_speed
+winner_level,winner_hp,winner_attack,winner_defense,winner_speed,loser_level,loser_hp,loser_attack,loser_defense,loser_speed
 63,180,118,124,93,21,79,55,57,42
 33,118,84,77,90,33,128,87,97,87
 57,169,136,90,96,11,46,35,37,28
