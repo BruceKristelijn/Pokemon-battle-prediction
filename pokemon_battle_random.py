@@ -24,11 +24,11 @@ print("Randomizing simulation of all pokemon, length: " + str(COUNT))
 for i in tqdm(range(0, COUNT)):
     # Get attacker
     attacker = get_pokemon(random.randint(0, len(POKEMONS)))
-    attacker.setLevel(random.randint(0, 99))
+    attacker.setLevel(random.randint(1, 99))
 
     # Get defender
     defender = get_pokemon(random.randint(0, len(POKEMONS)))
-    defender.setLevel(random.randint(0, 99))
+    defender.setLevel(random.randint(1, 99))
 
     battleresult = battle((attacker), (defender))
     results.append({
@@ -43,8 +43,8 @@ for i in tqdm(range(0, COUNT)):
 with open('pokemon_simulation.csv', 'w') as file:
     writer = csv.writer(file)
 
-    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed' 
-                    'winner_level', 'loser_hp', 'loser_attack', 'loser_defense', 'winner_speed'])
+    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed', 
+                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'winner_speed'])
 
     for result in results:
         writer.writerow([
