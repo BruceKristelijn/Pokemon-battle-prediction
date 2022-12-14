@@ -37,11 +37,11 @@ for index in data.index:
 # Split dataset into training set and test set
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.3) # 70% training and 30% test
 
-# Create a Gaussian Classifier
+# Create classifier
 clf=RandomForestClassifier(n_estimators=100)
 
-# Train the model using the training sets y_pred=clf.predict(X_test)
-clf.fit(X_train,y_train)
+# Train the model using the training sets
+clf.fit(X_train, y_train)
 
 y_pred=clf.predict(X_test)
 
