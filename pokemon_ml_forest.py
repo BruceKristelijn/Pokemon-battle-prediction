@@ -6,12 +6,16 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
 # Import Pokemon classes
 from pokemon.pokemon import get_pokemon
+from pokemon.pokemontype import get_typetable
 
 import random
 import pandas as pd
 
+# arr of type id's
+types = get_typetable().columns.tolist()
+
 # Read pokemon
-data = pd.read_csv("pokemon_simulation_10k.csv")
+data = pd.read_csv("pokemon_simulation.csv")
 
 # Pre create values
 x = []
@@ -19,8 +23,8 @@ y = []
 
 for index in data.index:
      series = data.iloc[index]
-     winner = [series['winner_level'], series['winner_hp'], series['winner_attack'], series['winner_defense'], series['winner_speed']]
-     loser = [series['loser_level'], series['loser_hp'], series['loser_attack'], series['loser_defense'], series['loser_speed']]
+     winner = [series['winner_level'], series['winner_hp'], series['winner_attack'], series['winner_defense'], series['winner_speed'], types.index(series['winner_type'])]
+     loser = [series['loser_level'], series['loser_hp'], series['loser_attack'], series['loser_defense'], series['loser_speed'], types.index(series['loser_type'])]
 
      # print([winner, loser])
 
@@ -75,8 +79,9 @@ while(True):
      pokemon2 = get_pokemon(pokemonName2)
      pokemon2.setLevel(level2)
 
-     print(clf.predict([[pokemon1.Level, pokemon1.get_hp(), pokemon1.get_attack(), pokemon1.get_defense(), pokemon1.get_speed(), 
-                         pokemon2.Level, pokemon2.get_hp(), pokemon2.get_attack(), pokemon2.get_defense(), pokemon2.get_speed()]]))     
+     print("Result:")
+     print(clf.predict([[pokemon1.Level, pokemon1.get_hp(), pokemon1.get_attack(), pokemon1.get_defense(), pokemon1.get_speed(), types.index(pokemon1.Type1), 
+                         pokemon2.Level, pokemon2.get_hp(), pokemon2.get_attack(), pokemon2.get_defense(), pokemon2.get_speed(), types.index(pokemon2.Type1) ]]))     
      print("----")
      
 

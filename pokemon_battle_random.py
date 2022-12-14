@@ -43,11 +43,8 @@ for i in tqdm(range(0, COUNT)):
 with open('pokemon_simulation.csv', 'w') as file:
     writer = csv.writer(file)
 
-    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed', 
-                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'loser_speed'])
+    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed', 'winner_type', 
+                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'loser_speed', 'loser_type'])
 
     for result in results:
-        writer.writerow([
-            result['winner'].Level, result['winner'].get_hp(),  result['winner'].get_attack(), result['winner'].get_defense(), result['winner'].get_speed(),
-            result['loser'].Level, result['loser'].get_hp(),  result['loser'].get_attack(), result['loser'].get_defense(), result['loser'].get_speed()
-        ])
+        writer.writerow([result['winner'].Level, result['winner'].get_hp(),  result['winner'].get_attack(), result['winner'].get_defense(), result['winner'].get_speed(), result['winner'].Type1,result['loser'].Level, result['loser'].get_hp(),  result['loser'].get_attack(), result['loser'].get_defense(), result['loser'].get_speed(), result['loser'].Type1])
