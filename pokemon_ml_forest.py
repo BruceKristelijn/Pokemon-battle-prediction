@@ -61,8 +61,9 @@ X_train, X_test, y_train, y_test = train_test_split(
     x, y, test_size=0.3
 )  # 70% training and 30% test
 
+forest_amount = 10
 # Create a RF Classifier, 50 seems to be the sweet spot.
-clf = RandomForestClassifier(n_estimators=50)
+clf = RandomForestClassifier(n_estimators=forest_amount)
 
 # Train the model using the training sets y_pred=clf.predict(X_test)
 clf.fit(X_train, y_train)
@@ -70,30 +71,57 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
 # Model Accuracy, how often is the classifier correct?
+print(f"Amount of trees generated: {forest_amount}")
 print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 print(metrics.classification_report(y_test, y_pred))
 
 print("\nGenerate confusion matrix plot? (type 'y' or 'n')")
-if 'y' in input().lower():
+if "y" in input().lower():
     matrix = metrics.confusion_matrix(y_test, y_pred)
-    matrix = matrix.astype('float') / matrix.sum(axis=1)[:, np.newaxis]
+    matrix = matrix.astype("float") / matrix.sum(axis=1)[:, np.newaxis]
 
     # Build the plot
     plt.figure(figsize=(16, 7))
     sns.set(font_scale=1.5)
-    sns.heatmap(matrix, annot=True, annot_kws={'size': 10},
-                cmap=plt.cm.Greens, linewidths=0.6)
+    sns.heatmap(
+        matrix, annot=True, annot_kws={"size": 10}, cmap=plt.cm.Greens, linewidths=0.6
+    )
 
     # Add labels to the plot
-    class_names = ['positive', 'negative']
+    class_names = ["positive", "negative"]
     tick_marks = np.arange(len(class_names))
     tick_marks2 = tick_marks + 0.5
-    plt.xticks(tick_marks, class_names, rotation=25, ha='center')
+    plt.xticks(tick_marks, class_names, rotation=25, ha="center")
     plt.yticks(tick_marks2, class_names, rotation=0)
-    plt.xlabel('Predicted')
-    plt.ylabel('Actual')
-    plt.title('Confusion Matrix for Random Forest Pokemon Model')
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.title("Confusion Matrix for Random Forest Pokemon Model")
     plt.show()
+
+print("\nGenerate decision tree visualization? (type 'y' or 'n')")
+if "y" in input().lower():
+    from sklearn.tree import export_graphviz
+
+    # Export as dot file
+    export_graphviz(
+        clf.estimators_[5],
+        out_file="tree.dot",
+        feature_names=data.columns.tolist(),
+        class_names=types,
+        rounded=True,
+        precision=2,
+        filled=True,
+    )
+
+    # Convert to png using system command (requires Graphviz)
+    from subprocess import call
+
+    call(["dot", "-Tpng", "tree.dot", "-o", "tree.png", "-Gdpi=600"])
+
+    # Display in jupyter notebook
+    from IPython.display import Image
+
+    Image(filename="tree.png")
 
 while True:
     print("Give first Pokemon name or id:")
