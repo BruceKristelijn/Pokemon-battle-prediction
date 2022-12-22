@@ -21,7 +21,7 @@ results = []
 # Simulate
 print("Randomizing simulation of all pokemon, length: " + str(COUNT))
 
-for i in tqdm(range(0, COUNT)):
+for _ in tqdm(range(COUNT)):
     # Get attacker
     attacker = get_pokemon(random.randint(0, len(POKEMONS)))
     attacker.setLevel(random.randint(1, 99))
@@ -31,20 +31,43 @@ for i in tqdm(range(0, COUNT)):
     defender.setLevel(random.randint(1, 99))
 
     battleresult = battle((attacker), (defender))
-    results.append({
-        'winner': battleresult.winner,
-        'loser':  battleresult.loser
-    })
-
-    pass
-
+    results.append({"winner": battleresult.winner, "loser": battleresult.loser})
 
 # export results
-with open('pokemon_simulation.csv', 'w') as file:
+with open("pokemon_simulation.csv", "w") as file:
     writer = csv.writer(file)
 
-    writer.writerow(['winner_level', 'winner_hp', 'winner_attack', 'winner_defense', 'winner_speed', 'winner_type', 
-                    'loser_level', 'loser_hp', 'loser_attack', 'loser_defense', 'loser_speed', 'loser_type'])
+    writer.writerow(
+        [
+            "winner_level",
+            "winner_hp",
+            "winner_attack",
+            "winner_defense",
+            "winner_speed",
+            "winner_type",
+            "loser_level",
+            "loser_hp",
+            "loser_attack",
+            "loser_defense",
+            "loser_speed",
+            "loser_type",
+        ]
+    )
 
     for result in results:
-        writer.writerow([result['winner'].Level, result['winner'].get_hp(),  result['winner'].get_attack(), result['winner'].get_defense(), result['winner'].get_speed(), result['winner'].Type1,result['loser'].Level, result['loser'].get_hp(),  result['loser'].get_attack(), result['loser'].get_defense(), result['loser'].get_speed(), result['loser'].Type1])
+        writer.writerow(
+            [
+                result["winner"].Level,
+                result["winner"].get_hp(),
+                result["winner"].get_attack(),
+                result["winner"].get_defense(),
+                result["winner"].get_speed(),
+                result["winner"].Type1,
+                result["loser"].Level,
+                result["loser"].get_hp(),
+                result["loser"].get_attack(),
+                result["loser"].get_defense(),
+                result["loser"].get_speed(),
+                result["loser"].Type1,
+            ]
+        )

@@ -17,23 +17,32 @@ for pokemon in allpokemon:
 
     wins = 0
     for enemypokemon in allpokemon:
-        if(enemypokemon != pokemon):
-            if(battle(pokemon, enemypokemon).winner == pokemon):
+        if enemypokemon != pokemon:
+            if battle(pokemon, enemypokemon).winner == pokemon:
                 wins += 1
-    results.append({'wins': wins, 'info': pokemon})
-    print("Done, " + pokemon.Name +" wins: " + str(wins) + ". Left: " + str(len(allpokemon) - pokemon.Number))
+    results.append({"wins": wins, "info": pokemon})
+    print(
+        "Done, "
+        + pokemon.Name
+        + " wins: "
+        + str(wins)
+        + ". Left: "
+        + str(len(allpokemon) - pokemon.Number)
+    )
 
 # export results
-with open('pokemon_battle_all.csv', 'w') as file:
+with open("pokemon_battle_all.csv", "w") as file:
     writer = csv.writer(file)
 
-    writer.writerow(['number', 'name', 'wins', 'type', 'attack'])
+    writer.writerow(["number", "name", "wins", "type", "attack"])
 
     for result in results:
-        writer.writerow([
-            result['info'].Number, 
-            result['info'].Name, 
-            result['wins'],
-            result['info'].Type1,
-            result['info'].source.Attack,
-        ])
+        writer.writerow(
+            [
+                result["info"].Number,
+                result["info"].Name,
+                result["wins"],
+                result["info"].Type1,
+                result["info"].source.Attack,
+            ]
+        )

@@ -13,6 +13,7 @@ class TestPokemonStatCalculations(unittest.TestCase):
         # Should go to 293 value.
         hpstat = calculate_hp_stat(bulb.Level, bulb.source.HP, 15, 65535)
         self.assertEqual(hpstat, 293)
+
     def test_calculate_hp_stat_min(self):
         # Get bulbasaur
         bulb = get_pokemon(1)
@@ -21,5 +22,7 @@ class TestPokemonStatCalculations(unittest.TestCase):
         # Should go to 293 value.
         hpstat = calculate_hp_stat(bulb.Level, bulb.source.HP, 0, 0)
         self.assertEqual(hpstat, 11)
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     unittest.main()
