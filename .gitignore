@@ -4,3 +4,4 @@ pokemondata.csv
 pokemontypedata.csv
 .env.local
 .env
+simulations/pokemon_simulation_1000k.csv
