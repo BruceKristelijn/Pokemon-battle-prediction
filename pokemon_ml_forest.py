@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import seaborn as sns
+from timeit import default_timer as timer
 
 # Import Random Forest Model
 from sklearn.ensemble import RandomForestClassifier
@@ -61,10 +62,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     x, y, test_size=0.3
 )  # 70% training and 30% test
 
-forest_amount = 10
-# Create a RF Classifier, 50 seems to be the sweet spot.
+forest_amount = 200
+# Create a RF Classifier, 100 seems to be the sweet spot.
+training_start = timer()
 clf = RandomForestClassifier(n_estimators=forest_amount)
-
+training_end = timer()
 # Train the model using the training sets y_pred=clf.predict(X_test)
 clf.fit(X_train, y_train)
 
@@ -152,9 +154,8 @@ while True:
     pokemon2 = get_pokemon(pokemonName2)
     pokemon2.setLevel(level2)
 
-    print("Result:")
-    print(
-        clf.predict(
+    start = timer()
+    winner = clf.predict(
             [
                 [
                     pokemon1.Level,
@@ -172,7 +173,11 @@ while True:
                 ]
             ]
         )
-    )
-    print("----")
+    end = timer()
 
-print(clf.predict([[97, 9000, 0, 0, 0, 0, 98, 0, 0, 0]]))
+    print("Result")
+    print("winner: ", f"pokemon {winner[0] + 1}")
+    print('trees amount: ', forest_amount)
+    print('prediction time: ', round(end - start, 6))
+    print('training time: ', round(training_end - training_start, 6))
+    print("----")
