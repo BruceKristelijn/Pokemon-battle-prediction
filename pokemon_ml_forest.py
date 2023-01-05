@@ -77,6 +77,23 @@ print(f"Amount of trees generated: {forest_amount}")
 print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 print(metrics.classification_report(y_test, y_pred))
 
+# PRUNING (not really worth it)
+# important_features = clf.feature_importances_
+# X_important = X_train[:, important_features > 0]
+#
+# pruned_model = RandomForestClassifier(n_estimators=forest_amount)
+# pruned_model.fit(X_important, y_train)
+#
+# y_prune_pred = clf.predict(X_test)
+#
+# # Prune Model Accuracy, how often is the classifier correct?
+# print(f"Amount of trees generated: {forest_amount}")
+# print("Accuracy:", metrics.accuracy_score(y_test, y_prune_pred))
+# print(metrics.classification_report(y_test, y_prune_pred))
+#
+# breakpoint()
+
+
 print("\nGenerate confusion matrix plot? (type 'y' or 'n')")
 if "y" in input().lower():
     matrix = metrics.confusion_matrix(y_test, y_pred)
