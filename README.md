@@ -2,7 +2,7 @@
 Based on pokemon stats find out which is most likely to win a pokemon battle. A project for the Minor Data Science at the Rotterdam University of Applied Sciences.
 
 ## Installation
-To install all dependencies for this repository, simply run the following command:
+To install all dependencies for this repository, make sure you have [Python](https://www.python.org/downloads/) installed and simply run the following command:
 
 `pip install -r requirements.txt`
 
