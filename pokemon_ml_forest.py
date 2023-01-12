@@ -62,11 +62,19 @@ X_train, X_test, y_train, y_test = train_test_split(
     x, y, test_size=0.3
 )  # 70% training and 30% test
 
-forest_amount = 200
+print('Set trees amount: (enter for default: 100)')
+input_ = input()
+
+if input_:
+    forest_amount = int(input_)
+else:
+    forest_amount = 100
+
 # Create a RF Classifier, 100 seems to be the sweet spot.
 training_start = timer()
 clf = RandomForestClassifier(n_estimators=forest_amount)
 training_end = timer()
+
 # Train the model using the training sets y_pred=clf.predict(X_test)
 clf.fit(X_train, y_train)
 
@@ -77,7 +85,7 @@ print(f"Amount of trees generated: {forest_amount}")
 print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 print(metrics.classification_report(y_test, y_pred))
 
-# PRUNING (not really worth it)
+# PRUNING (not worth it)
 # important_features = clf.feature_importances_
 # X_important = X_train[:, important_features > 0]
 #
@@ -192,9 +200,10 @@ while True:
         )
     end = timer()
 
+    print("\n----")
     print("Result")
     print("winner: ", f"pokemon {winner[0] + 1}")
     print('trees amount: ', forest_amount)
     print('prediction time: ', round(end - start, 6))
     print('training time: ', round(training_end - training_start, 6))
-    print("----")
+    print("----\n")
