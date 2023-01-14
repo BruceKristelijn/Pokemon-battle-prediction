@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import seaborn as sns
 from timeit import default_timer as timer
+from sklearn.metrics import roc_auc_score
 
 # Import Random Forest Model
 from sklearn.ensemble import RandomForestClassifier
@@ -149,6 +150,25 @@ if "y" in input().lower():
     from IPython.display import Image
 
     Image(filename="tree.png")
+
+print("\nGenerate ROC curve? (type 'y' or 'n')")
+if "y" in input().lower():
+    # Predict the probabilities of the positive class for the test set
+    y_pred_proba = clf.predict_proba(X_test)[:,1]
+
+    # Calculate the AUC score
+    roc_auc = roc_auc_score(y_test, y_pred_proba)
+
+    # Plot the ROC curve
+    fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred_proba)
+    plt.plot(fpr, tpr, label='Random Forest (AUC = %0.3f)' % roc_auc)
+    plt.legend(loc='lower right')
+    plt.plot([0, 1], [0, 1],'r--')
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
 
 while True:
     print("Give first Pokemon name or id:")
